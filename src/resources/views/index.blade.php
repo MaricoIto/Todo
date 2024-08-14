@@ -12,7 +12,8 @@
 </div>
 
 <div class="todo__content">
-    <form class="create-form">
+    <form class="create-form" action="/todos" method="post">
+        @csrf
         <div class="create-form__item">
             <input class="create-form__item-input" type="text" name="content">
         </div>

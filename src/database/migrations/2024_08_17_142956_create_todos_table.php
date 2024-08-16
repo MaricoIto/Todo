@@ -13,7 +13,13 @@ class CreateTodosTable extends Migration
      */
     public function up()
     {
-        //
+        // todosテーブルの作成
+        Schema::create('todos', function (Blueprint $table) {
+            $table->id(); // 自動インクリメントの主キー
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->string('content', 20); // タスクの内容
+            $table->timestamps(); // created_atとupdated_atカラム
+        });
     }
 
     /**
@@ -23,6 +29,7 @@ class CreateTodosTable extends Migration
      */
     public function down()
     {
-        //
+        // todosテーブルの削除
+        Schema::dropIfExists('todos');
     }
 }

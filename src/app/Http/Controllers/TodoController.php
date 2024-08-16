@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Todo;
 use App\Http\Requests\TodoRequest;
 
@@ -10,14 +11,16 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todos = Todo::all();
+        $todos = Todo::with('category')->get();
+        $categories = Category::all();
 
-        return view('index', compact('todos'));
+        return view('index', compact('todos', 'categories'));
     }
     public function store(TodoRequest $request)
     {
-        $todo = $request->only(['content']);
-        Todo::create($todo);
+        $todoData = $request->only(['content', 'category_id']);
+
+        Todo::create($todoData);
 
         return redirect('/')->with('message', 'Todoを作成しました');
     }
@@ -29,7 +32,7 @@ class TodoController extends Controller
 
         return redirect('/')->with('message', 'Todoを更新しました');
     }
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
         Todo::find($request->id)->delete();
         return redirect('/')->with('message', 'Todoを削除しました');

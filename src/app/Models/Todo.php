@@ -29,12 +29,4 @@ class Todo extends Model
             $query->where('content', 'like', '%' . $keyword . '%');
         }
     }
-
-    public function search(Request $request)
-    {
-        $todos = Todo::with('category')->CategorySearch($request->category_id)->KeywordSearch($request->keyword)->get();
-        $categories = Category::all();
-
-        return view('index', compact('todos', 'categories'));
-    }
 }
